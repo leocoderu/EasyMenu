@@ -1,0 +1,29 @@
+#######################################
+# Syntax Coloring Map For EasyMenu
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+oneMenu	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+modeMenu	    KEYWORD2
+actionMenu	    KEYWORD2
+checkTimeMenu	KEYWORD2
+activity		KEYWORD2
+verify			KEYWORD2
+setup			KEYWORD2
+create			KEYWORD2
+
+#######################################
+# Instances (KEYWORD2)
+#######################################
+
+#######################################
+# Constants (LITERAL1)
+#######################################
