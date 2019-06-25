@@ -2,13 +2,15 @@
 #include <EasyMenu.h>
 
 // Constructor
-Menu:Menu(uint8_t inPIN1, uint8_t inPIN2, uint8_t inTIMEOUT, uint8_t inDX, uint8_t DY)
+Menu:Menu(uint8_t inPIN1, uint8_t inPIN2, uint8_t inTIMEOUT, uint8_t inDX, uint8_t DY, oneMenu inMenu[], oneAction inActions[])
 {
     PIN1 = inPIN1;
 	PIN2 = inPIN2;
 	TIMEOUT = inTIMEOUT;
 	DISP_X = inDX;
 	DISP_Y = inDY;
+	menu = inMenu;
+	actions = inActions;
 }
  
 // Destructor
@@ -17,8 +19,10 @@ Menu::~Menu()
 
 }
 
-void Menu::verify() 
+uint8_t Menu::verify() 
 {
+	uint8_t res = 0;
+	
 	// Нажатие на кнопку "Mode"
 	bool butChanged = butMode.update();
 	if (butChanged) {
@@ -33,12 +37,13 @@ void Menu::verify()
 	if (resBut) {
 		int resButValue = butAction.read();
 		if (resButValue == HIGH) {
-		actionMenu(viewMenuID);
+		res = actionMenu(viewMenuID);
 		}
 	}
 
 	// Проверка на бездействие в меню
 	checkTimeMenu();
+	return res;
 }
 
 void Menu::checkTimeMenu() {
@@ -60,7 +65,7 @@ void Menu::modeMenu() {
     timeMenu = millis();
 }
 
-void Menu::actionMenu(int viewID) {
+uint8_t Menu::actionMenu(int viewID) {
 	byte actionID;
 	if (viewID == -1) {actionID = 255;}
 		else {actionID = menu[viewID].actionID;};
@@ -69,11 +74,12 @@ void Menu::actionMenu(int viewID) {
 		case 0: 	curMenuID = viewMenuID;
 					curMenuPos = 1; 
 					printMenu(curMenuID);
+					return 0;
 					break;
             
 		case 255:	if (curMenuID == -1) {
 						// Если уровень наивысший, то включаем и отключаем свет
-						//runMethod("switchLigth");
+						return 255;
 					} else {
 						// Иначе производим выход на уровень меню выше
 						curMenuPos = 1;
@@ -83,10 +89,12 @@ void Menu::actionMenu(int viewID) {
 						} else {
 							timeMenu = millis()-TIMEOUTMENU-1;
 						}
+						return 0;
 					}                 
 					break;
     
 		default: 	Serial.println("No action for this!");
+					return actionID;
 					break;
 	}
 }
