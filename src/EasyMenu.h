@@ -3,11 +3,12 @@
 // Copyright (c) 2019, LeoCode
 // All rights reserved.
 //
-// Distributed under the 2-clause BSD license.
+// Distributed under the 3-clause BSD license.
 #ifndef EASYMENU_H_
 #define EASYMENU_H_
 
-#include "Arduino.h"
+#include <Arduino.h>
+#include <Bounce2.h>
 
 typedef struct oneMenu {
 	uint8_t id;                  // Идентификатор пункта
@@ -22,6 +23,11 @@ typedef struct oneAction {
 	uint8_t id;                  // Идентификатор метода
 	char    nameMenu[DISP_X+1];  // Название метода который молжен быть запущен
 } actionMenu;
+
+Bounce butMode = Bounce(); // Создание объекта кнопки полива
+Bounce butAction = Bounce(); // Создание объекта кнопки сброса памяти
+
+Adafruit_PCD8544 display = Adafruit_PCD8544(9, 8, 7, 6, 5);							// <- Переменные!!!! ПИНЫ
 
 class Menu {
 public:
@@ -48,6 +54,7 @@ private:
 	void actionMenu(int viewID);
 	void checkTimeMenu();
 	int  getMenuPos(byte idMenu);
+	void printMenu(int id);
 	
 };
 
