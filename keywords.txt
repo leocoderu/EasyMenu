@@ -7,6 +7,7 @@
 #######################################
 
 oneMenu	KEYWORD1
+Menu	KEYWORD1
 
 #######################################
 # Methods and Functions (KEYWORD2)
