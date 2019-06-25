@@ -7,6 +7,8 @@
 #ifndef EASYMENU_H_
 #define EASYMENU_H_
 
+#include "Arduino.h"
+
 typedef struct oneMenu {
 	byte id;                  // Идентификатор пункта
 	byte parent;              // Идентификатор родительского пункта
