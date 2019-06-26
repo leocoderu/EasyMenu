@@ -60,13 +60,13 @@ void Menu::checkTimeMenu() {
 void Menu::modeMenu() { 
 	curMenuPos++;
     if (curMenuID == -1) curMenuID = 0;
-    //printMenu(curMenuID);
+    printMenu(curMenuID);
     
     timeMenu = millis();
 }
 
 uint8_t Menu::actionMenu(int viewID) {
-	byte actionID;
+	uint8_t actionID;
 	if (viewID == -1) {actionID = 255;}
 		else {actionID = menu[viewID].actionID;};
   
@@ -99,13 +99,65 @@ uint8_t Menu::actionMenu(int viewID) {
 	}
 }
 
-int Menu::getMenuPos(byte idMenu){
+uint8_t Menu::getMenuPos(uint8_t idMenu){
   int result = 0;
-  for (int i=0; i<(sizeof(menu)/sizeof(menu[0])); i++){
+/*  for (int i=0; i<(sizeof(menu)/sizeof(menu[0])); i++){
     if (menu[i].id == idMenu) {
       result = i;
       break;
     }      
   }
   return result;
+}
+
+void printMenu(int id){    
+/*    display.clearDisplay();
+    display.setTextSize(1);
+    display.setTextColor(BLACK);
+    display.setCursor(0, 0);
+    if (menu[curMenuID].param != "") display.println(menu[curMenuID].param);
+    display.setTextColor(BLACK);
+
+    // Подсчитываем кол-во элементов выборки из общего массива
+    uint8_t qElem = 0;    
+    for(int i=0; i<(sizeof(menu)/sizeof(menu[0])); i++){ if (menu[i].parent == menu[id].id) qElem++; }
+   
+    // Объявляем массив размером выборки +1 для пункта "< Back"
+    qElem++; 
+    oneMenu subArr[qElem];
+    qElem = 1;
+    
+    // Переписываем подменю в отдельный массив
+    for(int i=0; i<(sizeof(menu)/sizeof(menu[0])); i++){ 
+      if (menu[i].parent == menu[id].id) {
+        subArr[qElem-1] = menu[i];
+        qElem++; 
+      }
+    }
+    // Дописываем Возврат в конце подменю
+    subArr[qElem-1] = (oneMenu){255, id, "< Back", 255, ""};
+    
+    if (curMenuPos > qElem) curMenuPos = 1; //qElem;
+    
+    uint8_t from = 0;             // Цикл от
+    uint8_t to = from+qElem;      // Цикл до
+    if (qElem > MAXROW-1) { to = from+(MAXROW-1);}
+                         
+    if (curMenuPos > MAXROW-1) {   
+       from = curMenuPos-(MAXROW-1);
+       to = from + (MAXROW-1);        
+    }
+    
+    for(int i = from; i < to; i++){
+        if ((i+1) == curMenuPos) {
+          display.setTextColor(WHITE, BLACK);
+          viewMenuID = getMenuPos(subArr[i].id);
+        } else {
+          display.setTextColor(BLACK);
+        };
+        display.println(subArr[i].nameMenu);
+    }
+    display.display();
+*/
+	
 }
