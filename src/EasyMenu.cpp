@@ -2,51 +2,39 @@
 #include <EasyMenu.h>
 
 // Constructor
-Menu:Menu(uint8_t inPIN1, uint8_t inPIN2, uint8_t inTIMEOUT, uint8_t inDX, uint8_t DY, oneMenu inMenu[], oneAction inActions[])
+Menu::Menu(Adafruit_PCD8544* display, uint8_t TIMEOUT, uint8_t DISP_X, uint8_t DISP_Y)
 {
-    PIN1 = inPIN1;
-	PIN2 = inPIN2;
-	TIMEOUT = inTIMEOUT;
-	DISP_X = inDX;
-	DISP_Y = inDY;
-	menu = inMenu;
-	actions = inActions;
+	_TIMEOUT = TIMEOUT;
+	_DISP_X = DISP_X;
+	_DISP_Y = DISP_Y;
+	//memcpy(_menu, menu, sizeof(menu));
+	//for (int i=0; i < sizeof(menu)/sizeof(menu[0]); i++) {
+	//	_menu[i]=menu[i];
+	//}
+	//Serial.println(sizeof(menu));
+	//_menu = menu;
+	_display = display;
 }
- 
+
 // Destructor
 Menu::~Menu()
 {
 
 }
-
-uint8_t Menu::verify() 
+ 
+/*uint8_t Menu::getAction(bool butMode, bool butAction) 
 {
 	uint8_t res = 0;
 	
-	// Нажатие на кнопку "Mode"
-	bool butChanged = butMode.update();
-	if (butChanged) {
-		int butModeValue = butMode.read();
-		if (butModeValue == HIGH) {
-		modeMenu();
-		}
-	} 
-
-	// Нажатие на кнопку "Action"
-	bool resBut = butAction.update();
-	if (resBut) {
-		int resButValue = butAction.read();
-		if (resButValue == HIGH) {
-		res = actionMenu(viewMenuID);
-		}
-	}
+	if (butMode) modeMenu();
+	
 
 	// Проверка на бездействие в меню
 	checkTimeMenu();
 	return res;
-}
+}*/
 
-void Menu::checkTimeMenu() {
+/*void Menu::checkTimeMenu() {
 	if (millis() - timeMenu > TIMEOUT) {
 		activity = false;
 		curMenuPos = 0;
@@ -55,17 +43,18 @@ void Menu::checkTimeMenu() {
 	} else {
 		activity = true;
 	}
-}
+}*/
 
-void Menu::modeMenu() { 
-	curMenuPos++;
-    if (curMenuID == -1) curMenuID = 0;
-    printMenu(curMenuID);
+void Menu::getMenu() { 
+	_curMenuPos++;
+    if (_curMenuID == -1) _curMenuID = 0;
     
-    timeMenu = millis();
+	_timeMenu = millis();
+	
+	printMenu(_curMenuID);    
 }
 
-uint8_t Menu::actionMenu(int viewID) {
+/*uint8_t Menu::actionMenu(int viewID) {
 	uint8_t actionID;
 	if (viewID == -1) {actionID = 255;}
 		else {actionID = menu[viewID].actionID;};
@@ -98,28 +87,37 @@ uint8_t Menu::actionMenu(int viewID) {
 					break;
 	}
 }
+*/
 
+/*
 uint8_t Menu::getMenuPos(uint8_t idMenu){
   int result = 0;
-/*  for (int i=0; i<(sizeof(menu)/sizeof(menu[0])); i++){
+  for (int i=0; i<(sizeof(menu)/sizeof(menu[0])); i++){
     if (menu[i].id == idMenu) {
       result = i;
       break;
     }      
   }
+  
   return result;
 }
+*/
 
-void printMenu(int id){    
-/*    display.clearDisplay();
-    display.setTextSize(1);
-    display.setTextColor(BLACK);
-    display.setCursor(0, 0);
-    if (menu[curMenuID].param != "") display.println(menu[curMenuID].param);
-    display.setTextColor(BLACK);
+void Menu::printMenu(int id){    
+    _display->clearDisplay();
+    _display->setTextSize(1);
+    _display->setTextColor(BLACK);
+    _display->setCursor(0, 0);
+    if (menu[_curMenuID].param != "") _display->println(menu[_curMenuID].param);
 
+	_display->println("  Print from");
+	_display->println("	  Method");
+	
+	for (int i=0; i < 2; i++) {
+		Serial.print("Arr: ");Serial.println(menu[i].nameMenu);
+	}
     // Подсчитываем кол-во элементов выборки из общего массива
-    uint8_t qElem = 0;    
+/*    uint8_t qElem = 0;    
     for(int i=0; i<(sizeof(menu)/sizeof(menu[0])); i++){ if (menu[i].parent == menu[id].id) qElem++; }
    
     // Объявляем массив размером выборки +1 для пункта "< Back"
@@ -157,7 +155,6 @@ void printMenu(int id){
         };
         display.println(subArr[i].nameMenu);
     }
-    display.display();
-*/
-	
+*/	
+    _display->display();
 }
