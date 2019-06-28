@@ -2,7 +2,7 @@
 #include <EasyMenu.h>
 
 // Constructor
-Menu::Menu(Adafruit_PCD8544* display, uint8_t TIMEOUT, uint8_t DISP_X, uint8_t DISP_Y)
+Menu::Menu(Adafruit_PCD8544* display, uint8_t TIMEOUT, uint8_t DISP_X, uint8_t DISP_Y, oneMenu *menu)
 {
 	_TIMEOUT = TIMEOUT;
 	_DISP_X = DISP_X;
@@ -14,6 +14,8 @@ Menu::Menu(Adafruit_PCD8544* display, uint8_t TIMEOUT, uint8_t DISP_X, uint8_t D
 	//Serial.println(sizeof(menu));
 	//_menu = menu;
 	_display = display;
+	//sizeArr = 14;
+	//mymenu << menu;
 }
 
 // Destructor
@@ -21,6 +23,8 @@ Menu::~Menu()
 {
 
 }
+ 
+
  
 /*uint8_t Menu::getAction(bool butMode, bool butAction) 
 {
@@ -108,14 +112,14 @@ void Menu::printMenu(int id){
     _display->setTextSize(1);
     _display->setTextColor(BLACK);
     _display->setCursor(0, 0);
-    if (menu[_curMenuID].param != "") _display->println(menu[_curMenuID].param);
+    //if (menu[_curMenuID].nameMenu != "") _display->println(menu[_curMenuID].nameMenu);
 
 	_display->println("  Print from");
 	_display->println("	  Method");
 	
-	for (int i=0; i < 2; i++) {
+	/*for (int i=0; i < 2; i++) {
 		Serial.print("Arr: ");Serial.println(menu[i].nameMenu);
-	}
+	}*/
     // Подсчитываем кол-во элементов выборки из общего массива
 /*    uint8_t qElem = 0;    
     for(int i=0; i<(sizeof(menu)/sizeof(menu[0])); i++){ if (menu[i].parent == menu[id].id) qElem++; }

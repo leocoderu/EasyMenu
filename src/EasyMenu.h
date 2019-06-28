@@ -13,20 +13,20 @@
 #include <Adafruit_PCD8544.h>
 
 typedef struct oneMenu {
-	uint8_t id;                 // Идентификатор пункта
-	uint8_t parent;             // Идентификатор родительского пункта
-	char    nameMenu[15]; 		// Название пункта меню
-	uint8_t actionID;           // Action ID свойство, то что должно произойти на нажатии на пункт меню
-	char    param[15];    		// Параметр меню, для каталога - это шапка каталога, его название
-	bool    visible;			// Виден пункт меню в списке или нет
+	uint8_t id;         // Идентификатор пункта
+	uint8_t parent;     // Идентификатор родительского пункта
+	String  nameMenu;	// Название пункта меню
+	uint8_t actionID;	// Action ID свойство, то что должно произойти на нажатии на пункт меню
+	uint8_t visible;	// Виден пункт меню в списке или нет
 } oneMenu;
 
 class Menu {
 	public:
 		bool activity;
-		Menu(Adafruit_PCD8544* display, uint8_t TIMEOUT, uint8_t DISP_X, uint8_t DISP_Y);
+		Menu(Adafruit_PCD8544* display, uint8_t TIMEOUT, uint8_t DISP_X, uint8_t DISP_Y, oneMenu *menu);
 		~Menu();
-		oneMenu menu[]; 
+		int sizeArr;
+		oneMenu mymenu[sizeArr];
   	
 		void getMenu();
 		
